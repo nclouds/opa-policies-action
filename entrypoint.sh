@@ -5,10 +5,9 @@ set -o pipefail
 
 echo "Terraform Plan to evaulate $INPUT_TFPLAN_JSON"
 
-ls -ltr /policies
 
 # Copy the JSON to policies forlder
-cp -R /policies/Infrastructure .
+cp -R /policies .
 cp /Makefile .
 
 ls -ltr
