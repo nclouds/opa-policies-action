@@ -10,9 +10,6 @@ ls -ltr /policies
 # Copy the JSON to policies forlder
 cp $INPUT_TFPLAN_JSON /policies/Infrastructure/tfplan.json
 
-# List files inside policies directory
-ls -ltr /policies
-
 # Run Opa 
 make opa
 

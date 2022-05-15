@@ -1,5 +1,5 @@
 FROM alpine:3.10
-RUN apk update && apk add --no-cache jq curl
+RUN apk update && apk add --no-cache jq curl make cmake 
 
 # Download OPA Binary
 RUN curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64 && \
