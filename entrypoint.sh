@@ -9,6 +9,7 @@ ls -ltr /policies
 
 # Copy the JSON to policies forlder
 cp -R /policies/Infrastructure .
+cp /Makefile .
 
 ls -ltr
 cp $INPUT_TFPLAN_JSON policies/Infrastructure/tfplan.json
