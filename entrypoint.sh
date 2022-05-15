@@ -10,7 +10,9 @@ echo "Terraform Plan to evaulate $INPUT_TFPLAN_JSON"
 cp -R /policies .
 cp /Makefile .
 
-ls -ltr
+ls -ltr /usr/local/bin
+
+which opa
 cp $INPUT_TFPLAN_JSON policies/Infrastructure/tfplan.json
 
 ls -ltr
