@@ -3,12 +3,26 @@ name: 'Run OPA Policies'
 author: "Anup Gupta"
 description: 'Run OPA Policies on terraform code'
 inputs:
-  tfplan_json:
-    description: 'Terraform plan Json file to evaluate with OPA'
+  policies_repo:
+    description: 'HTTPS URL of Git Repo where your OPA Policies are stored'
+    required: true 
+    default: 'https://github.com/nclouds/terraform-opa-policies.git'
+  policies_dir:
+    description: 'Path where your policies are stored in the repo relative to root'
+    required: false
+    default: Infrastructure
+  tfplan_json_path:
+    description: 'Path to Terraform Plan Json file to evaluate with OPA'
     required: true
     default: "./tfplan.json"
+  data_json_paths:
+    description: 'Comma Separated Path(s) to additional Data or config file or files to be passed to OPA'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.policies_repo }}
+    - ${{ inputs.policy_dir }}
     - ${{ inputs.tfplan_json }}
+    - ${{ inputs.data_json }}

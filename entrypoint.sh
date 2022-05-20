@@ -3,21 +3,20 @@
 set -e
 set -o pipefail
 
-echo "Terraform Plan to evaulate $INPUT_TFPLAN_JSON"
+# Print the Input Variables
+__inputs="
+    Policies Repository: $INPUT_POLICIES_REPO
+    Policies Directory: $INPUT_POLICIES_DIR
+    Path to Terraform Plan: $INPUT_TFPLAN_JSON_PATH
+    Additonal Data or Configuration Files: $INPUT_DATA_JSON_PATHS
+"
+
+# List files inside workspace
+ls -ltr /github/workspace
 
 
-# Copy the JSON to policies forlder
-cp -R /policies .
-cp /Makefile .
-
-ls -ltr /usr/local/bin
-
-which opa
-cp $INPUT_TFPLAN_JSON policies/Infrastructure/tfplan.json
-
-ls -ltr
-
-# Run Opa 
-make opa
-
-# Print the Result
+# Exit Nicely
+if [ $? != 0] ; then
+  echo "OPA Checks failed"
+  exit 1
+fi
