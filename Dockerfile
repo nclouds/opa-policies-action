@@ -6,10 +6,9 @@ RUN curl -L -o opa https://www.openpolicyagent.org/downloads/latest/opa_linux_am
     chmod 755 ./opa && \
     cp ./opa /usr/local/bin
     
-# Copy Policies
-COPY policies/ /policies
+# Copy Reuqired Files
 COPY Makefile /Makefile
 COPY entrypoint.sh /entrypoint.sh
 
-
+# Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
