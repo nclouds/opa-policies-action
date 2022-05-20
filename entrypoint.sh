@@ -11,12 +11,11 @@ __inputs="
     Additonal Data or Configuration Files: $INPUT_DATA_JSON_PATHS
 "
 # Switch to Github Workspace
-pushd /github/workspace
+cd /github/workspace
 
+# Clone the Policies Repo
+git clone $INPUT_POLICIES_REPO policies
 
 # List files inside workspace
 ls -ltr
 cat tfplan.json
-
-# Come out of the workspace
-popd
