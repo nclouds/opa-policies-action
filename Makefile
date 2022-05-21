@@ -15,7 +15,7 @@ opa:
 	echo "-------------------------------------"; >> REPORT.md; \
 	FAILURES=0; \
 	for TYPE in $(POLICY_TYPES); do \
-		for FILE in $(DATA_FILES); do cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE;cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE done; \
+		for FILE in $(DATA_FILES); do cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE done; \
 		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
 		RESULT=$$(/usr/local/bin/opa test $(POLICY_DIR)/$$TYPE); \
 		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
