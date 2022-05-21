@@ -11,8 +11,8 @@ inputs:
     description: 'Path to Terraform Plan Json file to evaluate with OPA'
     required: true
     default: "./tfplan.json"
-  data_json_paths:
-    description: 'Comma Separated Path(s) to additional Data or config file or files to be passed to OPA'
+  data_files_path:
+    description: 'Comma Separated Path(s) to additional Data file(s) to be passed to OPA'
     required: false
 runs:
   using: 'docker'
