@@ -43,22 +43,21 @@ opa:
 		fi ; \
 		for FILE in $(DATA_FILES); do rm $(POLICY_DIR)/$$TYPE/$$FILE; done; \
 	done; \
-	cat REPORT.md; \
 	if [ $$FAILURES -gt 0 ]; then \
 		echo "Total Failures => $$FAILURES"; \
+		echo "Failed" > opa_status.txt; \
 		exit 1; \
+	else ; \
+		echo "Success" > opa_status.txt; \
 	fi
 
 comment:
 	if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then \
-		PR_COMMENTS=$$(cat REPORT.md); \
+		PR_COMMENTS=$$(cat opa_status.txt); \
 		echo "Commenting on the Pull Request"; \
 		PR_NUMBER=$$(echo ${GITHUB_REF} | awk -F "/" '{print $$(NF-1)}') ; \
 		echo "Pull Request Number is => $$PR_NUMBER" ; \
 		curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" \
- 		-X POST -d '"{"body": "OPA Policy Check Status => $$PR_COMMENTS}"' ; \
+ 		-X POST -d '{"body": "'"Opa Status => $$PR_COMMENTS"'"}' \
  		"https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/$$PR_NUMBER/comments" ; \
-		if [ $? -ne 0 ]; then \
-			exit 1; \
-		fi; \
 	fi
