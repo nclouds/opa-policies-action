@@ -21,7 +21,7 @@ opa:
 			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
 		done; \
 		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
-		RESULT=$$(/usr/local/bin/opa test -v $(POLICY_DIR)/$$TYPE); \
+		RESULT=$$(/usr/local/bin/opa test $(POLICY_DIR)/$$TYPE); \
 		echo "Result => $$RESULT" ; \
 		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
 		COUNT=$$(echo $$RESULT | grep -o " " | wc -l); \
