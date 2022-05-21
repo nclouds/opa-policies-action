@@ -21,5 +21,8 @@ cp /Makefile Makefile
 # Run OPA Policies
 make opa 
 
+# Update PR
+make comment
+
 # Generate the Output
 echo "::set-output name=result::$?"
