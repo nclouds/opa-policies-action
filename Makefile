@@ -51,8 +51,14 @@ opa:
 
 comment:
 	if [ ${GITHUB_EVENT_NAME} == "pull_request" ]; then \
-		echo "I am a Pull request" ; \
-	else \
-		echo "Github Event => ${GITHUB_EVENT}" ; \
+		echo "Commenting on the Pull Request" ; \
+
+		PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") ;\
+
+		echo "Pull Request Number is => ${PR_NUMBER}" ; \
+
+		curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+ 		-X POST -d '{"body": "OPA Policy Check Status"}' \
+ 		"https://api.github.com/repos/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments"
 	fi
 
