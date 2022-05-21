@@ -13,7 +13,7 @@ __inputs="
 cd /github/workspace
 
 # List files inside workspace
-ls -ltr
+ls -lta policies
 
 # Copy Makefile to current location
 cp /Makefile Makefile
