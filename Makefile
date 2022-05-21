@@ -19,31 +19,8 @@ opa:
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
 			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
 		done; \
+		ls -ltr $(POLICY_DIR)/$$TYPE ; \
 		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
-		RESULT=$$(/usr/local/bin/opa test $(POLICY_DIR)/$$TYPE); \
-		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
-		COUNT=$$(echo $$RESULT | grep -o " " | wc -l); \
-		if [ $$COUNT -eq 1 ]; then \
-			TOTAL=$$(echo $$RESULT | cut -d " " -f 2 | cut -d "/" -f 2); \
-			PASS=$$(echo $$RESULT | cut -d " " -f 2 | cut -d "/" -f 1); \
-			FAIL="0"; \
-			printf "| %s | %s | %s | %s | %s |\n" $$TYPE $$TOTAL $$PASS $$FAIL "No Failures" >>  REPORT.md; \
-		else \
-			TOTAL=$$(echo $$RESULT | cut -d " " -f $$((COUNT+1)) | cut -d "/" -f 2); \
-			FAIL=$$(echo $$RESULT | cut -d " " -f $$((COUNT+1)) | cut -d "/" -f 1); \
-			PASS="$$(($$TOTAL - $$FAIL))"; \
-			if [ $$PASS -eq 0 ]; then \
-			 	COMMENT=$$(echo $$RESULT | cut -d " " -f 1-$$((COUNT-1))); \
-			else \
-				COMMENT=$$(echo $$RESULT | cut -d " " -f 1-$$((COUNT-3))); \
-			fi; \
-			FAILURES=$$(($$FAILURES + $$FAIL)); \
-			printf "| %s | %s | %s | %s | %s |\n" $$TYPE $$TOTAL $$PASS $$FAIL "$$COMMENT" >>  REPORT.md; \
-		fi ; \
-		for FILE in $(DATA_FILES); do rm $(POLICY_DIR)/$$TYPE/$$FILE; done; \
 	done; \
-	cat REPORT.md; \
-	if [ $$FAILURES -gt 0 ]; then \
-		echo "Total Failures => $$FAILURES"; \
-		exit 1; \
-	fi
+	cat REPORT.md
+
