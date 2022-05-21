@@ -52,7 +52,7 @@ opa:
 comment:
 	if [ ${GITHUB_EVENT_NAME} == "pull_request" ]; then \
 		echo "Commenting on the Pull Request"; \
-		PR_NUMBER=$(jq --raw-output .pull_request.number ${GITHUB_EVENT_PATH}) ;\
+		PR_NUMBER=$(echo $$GITHUB_REF | awk -F "/" '{print $$(NF-1)}') ;\
 
 		echo "Pull Request Number is => ${PR_NUMBER}" ; \
 
