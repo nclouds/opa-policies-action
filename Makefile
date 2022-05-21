@@ -56,10 +56,9 @@ comment:
 		PR_NUMBER=$$(echo ${GITHUB_REF} | awk -F "/" '{print $$(NF-1)}') ; \
 		echo "Pull Request Number is => $$PR_NUMBER" ; \
 		curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" \
- 		-X POST -d '{"body": "'"OPA Policy Check Status => $$PR_COMMENTS"'"}' \
+ 		-X POST -d '"{"body": "OPA Policy Check Status => $$PR_COMMENTS}"' ; \
  		"https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/$$PR_NUMBER/comments" ; \
 		if [ $? -ne 0 ]; then \
 			exit 1; \
 		fi; \
 	fi
-
