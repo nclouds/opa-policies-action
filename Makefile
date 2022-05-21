@@ -14,7 +14,7 @@ opa:
 	echo "| --- | :--- | :--- | :--- | :--- |" >> REPORT.md; \
 	echo "-------------------------------------"; >> REPORT.md; \
 	FAILURES=0; \
-	echo "Policy Types Configured => $$POLICY_TYPES"; \
+	echo "Policy Types Configured => $(POLICY_TYPES)"; \
 	for TYPE in $(POLICY_TYPES); do \
 		for FILE in $(DATA_FILES); do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
