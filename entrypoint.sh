@@ -14,7 +14,9 @@ cd /github/workspace
 
 # List files inside workspace
 ls -ltr
-cat tfplan.json
+
+# Run OPA Policies
+make opa 
 
 # Generate the Output
 echo "::set-output name=result::$?"
