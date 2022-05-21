@@ -47,7 +47,7 @@ opa:
 		echo "Total Failures => $$FAILURES"; \
 		echo "Failed" > opa_status.txt; \
 		exit 1; \
-	else ; \
+	else \
 		echo "Success" > opa_status.txt; \
 	fi
 
