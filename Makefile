@@ -56,6 +56,6 @@ comment:
 		PR_NUMBER=$$(echo ${GITHUB_REF} | awk -F "/" '{print $$(NF-1)}') ; \
 		echo "Pull Request Number is => $$PR_NUMBER" ; \
 		curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" \
- 		-X POST -d '{"body": "'"$$PR_COMMENTS"'"}' \
+ 		-X POST -d '{"body": "'<html><body>"$$PR_COMMENTS"</body></html>'"}' \
  		"https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/$$PR_NUMBER/comments" ; \
 	fi
