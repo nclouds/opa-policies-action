@@ -2,7 +2,8 @@ DATA_FILES:=utils.rego
 TFPLAN_JSON:=tfplan.json
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
-POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d | awk -F "/" '{print $$NF}')
+# POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d | awk -F "/" '{print $$NF}')
+POLICY_TYPES:="Cost"
 
 .PHONY: opa
 
@@ -20,7 +21,8 @@ opa:
 			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
 		done; \
 		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
-		RESULT=$$(/usr/local/bin/opa test $(POLICY_DIR)/$$TYPE); \
+		RESULT=$$(/usr/local/bin/opa test -v $(POLICY_DIR)/$$TYPE); \
+		echo "Result => $$RESULT" ; \
 		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
 		COUNT=$$(echo $$RESULT | grep -o " " | wc -l); \
 		if [ $$COUNT -eq 1 ]; then \
