@@ -2,8 +2,7 @@ DATA_FILES:=utils.rego
 TFPLAN_JSON:=tfplan.json
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
-# POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d | awk -F "/" '{print $$NF}')
-POLICY_TYPES="Cost"
+POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d | awk -F "/" '{print $$NF}')
 
 .PHONY: opa
 
@@ -15,6 +14,7 @@ opa:
 	echo "| --- | :--- | :--- | :--- | :--- |" >> REPORT.md; \
 	echo "-------------------------------------"; >> REPORT.md; \
 	FAILURES=0; \
+	echo "Policy Types Configured => $$POLICY_TYPES"; \
 	for TYPE in $(POLICY_TYPES); do \
 		for FILE in $(DATA_FILES); do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
