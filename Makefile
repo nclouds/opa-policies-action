@@ -53,6 +53,6 @@ comment:
 	if [ ${GITHUB_EVENT_NAME} == "pull_request" ]; then \
 		echo "I am a Pull request" ; \
 	else \
-		echo "Github Event => ${GITHUB_EVENT}"
+		echo "Github Event => ${GITHUB_EVENT}" ; \
 	fi
 
