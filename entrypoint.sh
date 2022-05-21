@@ -15,8 +15,8 @@ cd /github/workspace
 # List files inside workspace
 ls -ltr
 
-# Cat Makefile
-cat Makefile
+# Copy Makefile to current location
+cp /Makefile Makefile
 
 # Run OPA Policies
 make opa 
