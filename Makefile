@@ -1,5 +1,5 @@
-DATA_FILES:=utils.rego
-TFPLAN_JSON:=tfplan.json
+DATA_FILES:=${INPUT_DATA_FILES}
+TFPLAN_JSON:=${INPUT_TFPLAN_JSON}
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
 POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')

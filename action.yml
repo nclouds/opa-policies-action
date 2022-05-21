@@ -7,13 +7,14 @@ inputs:
     description: 'Path where your policies are stored in the repo relative to root'
     required: false
     default: Infrastructure
-  tfplan_json_path:
+  tfplan_json:
     description: 'Path to Terraform Plan Json file to evaluate with OPA'
     required: true
     default: "./tfplan.json"
-  data_files_path:
+  data_files:
     description: 'Comma Separated Path(s) to additional Data file(s) to be passed to OPA'
     required: false
+    default: "utils.rego"
 runs:
   using: 'docker'
   image: 'Dockerfile'
