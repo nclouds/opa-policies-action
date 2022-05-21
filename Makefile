@@ -59,6 +59,6 @@ comment:
 
 		curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
  		-X POST -d '{"body": "OPA Policy Check Status"}' \
- 		"https://api.github.com/repos/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments"
+ 		"https://api.github.com/repos/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" ; \
 	fi
 
