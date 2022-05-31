@@ -3,12 +3,26 @@
 set -e
 set -o pipefail
 
-echo "Terraform Plan to evaulate $INPUT_TFPLAN_JSON"
+# Print the Input Variables
+__inputs="
+    Policies Directory: $INPUT_POLICIES_DIR
+    Path to Terraform Plan: $INPUT_TFPLAN_JSON
+    Additonal Data or Configuration Files: $INPUT_DATA_FILES
+"
+# Switch to Github Workspace
+cd /github/workspace
 
-# Copy the JSON to policies forlder
-cp $INPUT_TFPLAN_JSON policies/Infrastructure/tfplan.json
+# List files inside workspace
+ls -lta policies
 
-# Run Opa 
-make opa
+# Copy Makefile to current location
+cp /Makefile Makefile
 
-# Print the Result
+# Run OPA Policies
+make opa 
+
+# Update PR
+make comment
+
+# Generate the Output
+echo "::set-output name=result::$?"

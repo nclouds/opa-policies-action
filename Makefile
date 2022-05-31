@@ -1,7 +1,8 @@
-DATA_FILES:=utils.rego tfplan.json
+DATA_FILES:=${INPUT_DATA_FILES}
+TFPLAN_JSON:=${INPUT_TFPLAN_JSON}
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-POLICY_DIR:="$(CURRENT_DIR)/policies/Infrastructure"
-POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d | awk -F "/" '{print $$NF}')
+POLICY_DIR:="$(CURRENT_DIR)/policies"
+POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')
 
 .PHONY: opa
 
@@ -13,10 +14,14 @@ opa:
 	echo "| --- | :--- | :--- | :--- | :--- |" >> REPORT.md; \
 	echo "-------------------------------------"; >> REPORT.md; \
 	FAILURES=0; \
+	echo "Policy Types Configured => $(POLICY_TYPES)"; \
 	for TYPE in $(POLICY_TYPES); do \
-		for FILE in $(DATA_FILES); do cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; done; \
-		opa check --format json $(POLICY_DIR)/$$TYPE ; \
-		RESULT=$$(opa test $(POLICY_DIR)/$$TYPE); \
+		for FILE in $(DATA_FILES); do \
+			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
+			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
+		done; \
+		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
+		RESULT=$$(/usr/local/bin/opa test $(POLICY_DIR)/$$TYPE); \
 		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
 		COUNT=$$(echo $$RESULT | grep -o " " | wc -l); \
 		if [ $$COUNT -eq 1 ]; then \
@@ -38,8 +43,19 @@ opa:
 		fi ; \
 		for FILE in $(DATA_FILES); do rm $(POLICY_DIR)/$$TYPE/$$FILE; done; \
 	done; \
-	cat REPORT.md; \
+	cat REPORT.md ; \
 	if [ $$FAILURES -gt 0 ]; then \
 		echo "Total Failures => $$FAILURES"; \
 		exit 1; \
+	fi
+
+comment:
+	if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then \
+		PR_COMMENTS=$$(cat REPORT.md | tr -s '\n' ' '); \
+		echo "Commenting on the Pull Request"; \
+		PR_NUMBER=$$(echo ${GITHUB_REF} | awk -F "/" '{print $$(NF-1)}') ; \
+		echo "Pull Request Number is => $$PR_NUMBER" ; \
+		curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+ 		-X POST -d '{"body": "'"$$PR_COMMENTS"'"}' \
+ 		"https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/$$PR_NUMBER/comments" ; \
 	fi
