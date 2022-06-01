@@ -6,7 +6,7 @@ POLICY_DIR:="$(CURRENT_DIR)/policies"
 POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')
 
 # OPA Command 
-ifeq ($(DEBUG), "true")
+ifeq ($(DEBUG), true)
 export OPA_COMMAND := /usr/local/bin/opa test -v
 else
 OPA_COMMAND := /usr/local/bin/opa test
