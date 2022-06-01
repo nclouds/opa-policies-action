@@ -8,6 +8,7 @@ __inputs="
     Policies Directory: $INPUT_POLICIES_DIR
     Path to Terraform Plan: $INPUT_TFPLAN_JSON
     Additonal Data or Configuration Files: $INPUT_DATA_FILES
+    OPA Debug Mode: $INPUT_DEBUG
 "
 # Switch to Github Workspace
 cd /github/workspace

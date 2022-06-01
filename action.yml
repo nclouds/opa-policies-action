@@ -26,6 +26,7 @@ runs:
     - ${{ inputs.policy_dir }}
     - ${{ inputs.tfplan_json }}
     - ${{ inputs.data_json }}
+    - ${{ inputs.debug }}
 outputs:
   result:
     description: 'Whether the policy checks passed of failed'
