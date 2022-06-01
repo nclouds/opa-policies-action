@@ -1,5 +1,6 @@
 DATA_FILES:=${INPUT_DATA_FILES}
 TFPLAN_JSON:=${INPUT_TFPLAN_JSON}
+DEBUG:=${INPUT_DEBUG}
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
 POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')
@@ -7,6 +8,12 @@ POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '
 .PHONY: opa
 
 opa:
+
+	if [[ $(DEBUG) == "true" ]]; then \
+		OPA_COMMAND="/usr/local/bin/opa test" ; \
+	else \
+		OPA_COMMAND="/usr/local/bin/opa -v test" ; \
+	fi; \
 
 # Generate Report
 	echo "#### OPA Compliance Report" > REPORT.md; \
@@ -21,7 +28,7 @@ opa:
 			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
 		done; \
 		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
-		RESULT=$$(/usr/local/bin/opa test $(POLICY_DIR)/$$TYPE); \
+		RESULT=$$($$OPA_COMMAND $(POLICY_DIR)/$$TYPE); \
 		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
 		COUNT=$$(echo $$RESULT | grep -o " " | wc -l); \
 		if [ $$COUNT -eq 1 ]; then \
