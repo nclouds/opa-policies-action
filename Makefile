@@ -9,7 +9,7 @@ POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '
 
 opa:
 
-	if [ "$(DEBUG)"" == "true" ]; then \
+	if [ "$(DEBUG)" == "true" ]; then \
 		OPA_COMMAND="/usr/local/bin/opa test" ; \
 	else \
 		OPA_COMMAND="/usr/local/bin/opa test -v" ; \
