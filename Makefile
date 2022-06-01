@@ -23,14 +23,14 @@ opa:
 	FAILURES=0; \
 	echo "Policy Types Configured => $(POLICY_TYPES)"; \
 	echo "OPA Debug Mode Enabled => $(DEBUG)" ; \
-	echo "OPA Command => $$OPA_COMMAND" ; \
+	echo "OPA Command => ${OPA_COMMAND}" ; \
 	for TYPE in $(POLICY_TYPES); do \
 		for FILE in $(DATA_FILES); do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
 			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
 		done; \
 		/usr/local/bin/opa check --format json $(POLICY_DIR)/$$TYPE ; \
-		RESULT=$$($$OPA_COMMAND $(POLICY_DIR)/$$TYPE); \
+		RESULT=$$(${OPA_COMMAND} $(POLICY_DIR)/$$TYPE); \
 		RESULT=$$(echo $$RESULT | sed 's/-//g'); \
 		COUNT=$$(echo $$RESULT | grep -o " " | wc -l); \
 		if [ $$COUNT -eq 1 ]; then \
