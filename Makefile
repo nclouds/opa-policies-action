@@ -7,9 +7,9 @@ POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '
 
 # OPA Command 
 ifeq ($(DEBUG), "true")
-export OPA_COMMAND := "/usr/local/bin/opa test -v"
+export OPA_COMMAND := '/usr/local/bin/opa test -v'
 else
-OPA_COMMAND := "/usr/local/bin/opa test"
+OPA_COMMAND := '/usr/local/bin/opa test'
 endif
 
 .PHONY: opa
