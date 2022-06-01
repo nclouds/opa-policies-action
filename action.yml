@@ -15,6 +15,10 @@ inputs:
     description: 'Comma Separated Path(s) to additional Data file(s) to be passed to OPA'
     required: false
     default: "utils.rego"
+  debug:
+    description: Enable OPA DEBUG Mode
+    required: false
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -22,6 +26,7 @@ runs:
     - ${{ inputs.policy_dir }}
     - ${{ inputs.tfplan_json }}
     - ${{ inputs.data_json }}
+    - ${{ inputs.debug }}
 outputs:
   result:
     description: 'Whether the policy checks passed of failed'
