@@ -9,7 +9,7 @@ POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '
 
 opa:
 
-	if [[ $(DEBUG) == "true" ]]; then \
+	if [ $(DEBUG) == "true" ]; then \
 		OPA_COMMAND="/usr/local/bin/opa test" ; \
 	else \
 		OPA_COMMAND="/usr/local/bin/opa -v test" ; \
@@ -22,6 +22,7 @@ opa:
 	echo "-------------------------------------"; >> REPORT.md; \
 	FAILURES=0; \
 	echo "Policy Types Configured => $(POLICY_TYPES)"; \
+	echo "OPA Debug Mode Enabled => $(DEBUG)" ; \
 	for TYPE in $(POLICY_TYPES); do \
 		for FILE in $(DATA_FILES); do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \

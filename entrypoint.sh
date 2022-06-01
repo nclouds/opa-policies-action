@@ -10,6 +10,8 @@ __inputs="
     Additonal Data or Configuration Files: $INPUT_DATA_FILES
     OPA Debug Mode: $INPUT_DEBUG
 "
+echo $__inputs
+
 # Switch to Github Workspace
 cd /github/workspace
 
