@@ -11,6 +11,7 @@ RUN curl -L -o opa https://www.openpolicyagent.org/downloads/latest/opa_linux_am
 # Copy Reuqired Files
 COPY Makefile /Makefile
 COPY entrypoint.sh /entrypoint.sh
+COPY config.json /config.json
 
 # Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]

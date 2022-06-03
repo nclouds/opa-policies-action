@@ -1,9 +1,16 @@
-DATA_FILES:=${INPUT_DATA_FILES}
+ADDITIONAL_DATA_FILES:=${INPUT_DATA_FILES:-utils.rego}
+ADDITONAL_CONFIGURATION_FILES:=${INPUT_ADDITIONAL_CONFIG_JSON_FILES:-config.json}
 TFPLAN_JSON:=${INPUT_TFPLAN_JSON}
 DEBUG:=${INPUT_DEBUG}
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
 POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')
+
+# Generate Data Config
+DATA:=$(echo $(ADDITIONAL_DATA_FILES) | tr "," "\n")
+CONFIG:=$(echo $(ADDITONAL_CONFIGURATION_FILES) | tr "," "\n")
+
+DATA_FILES:=$("${DATA[@]}" "${CONFIG[@]}")
 
 # OPA Command 
 ifeq ($(DEBUG), true)
