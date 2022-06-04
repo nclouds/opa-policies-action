@@ -6,7 +6,7 @@ inputs:
   policies_dir:
     description: 'Path where your policies are stored in the repo relative to root'
     required: false
-    default: Infrastructure
+    default: policies
   tfplan_json:
     description: 'Path to Terraform Plan Json file to evaluate with OPA'
     required: true

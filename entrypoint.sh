@@ -5,10 +5,10 @@ set -o pipefail
 
 # Print the Input Variables
 __inputs="
-    Policies Directory: $INPUT_POLICIES_DIR "\n"
-    Path to Terraform Plan: $INPUT_TFPLAN_JSON "\n"
-    Additonal Data Files: $INPUT_ADDITIONAL_DATA_FILES "\n"
-    Additonal Configuration Files: $INPUT_DATA_FILES "\n"
+    Policies Directory: $INPUT_POLICIES_DIR
+    Path to Terraform Plan: $INPUT_TFPLAN_JSON
+    Additonal Data Files: $INPUT_ADDITIONAL_DATA_FILES
+    Additonal Configuration Files: $INPUT_DATA_FILES
     OPA Debug Mode: $INPUT_ADDITIONAL_CONFIG_JSON_FILES
 "
 echo $__inputs
