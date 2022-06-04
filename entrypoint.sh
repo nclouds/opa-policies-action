@@ -7,19 +7,28 @@ set -o pipefail
 __inputs="
     Policies Directory: $INPUT_POLICIES_DIR
     Path to Terraform Plan: $INPUT_TFPLAN_JSON
-    Additonal Data or Configuration Files: $INPUT_DATA_FILES
-    OPA Debug Mode: $INPUT_DEBUG
+    Additonal Data Files: $INPUT_ADDITIONAL_DATA_FILES
+    Additonal Configuration Files: $INPUT_DATA_FILES
+    OPA Debug Mode: $INPUT_ADDITIONAL_CONFIG_JSON_FILES
 "
 echo $__inputs
 
 # Switch to Github Workspace
 cd /github/workspace
 
-# List files inside workspace
-ls -lta policies
+# List Policies Directory Structure
+ls -lta $INPUT_POLICIES_DIR
 
 # Copy Makefile to current location
 cp /Makefile Makefile
+
+# Copy Configuration Files
+if [ -z "$INPUT_ADDITIONAL_CONFIG_JSON_FILES" ]; then
+    cp /config.json $INPUT_POLICIES_DIR/config.json
+fi
+
+# List final files
+ls -ltr
 
 # Run OPA Policies
 make opa 

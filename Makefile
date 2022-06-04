@@ -1,9 +1,16 @@
-DATA_FILES:=${INPUT_DATA_FILES}
+INPUT_DATA_FILES ?= 'utils.rego'
+INPUT_ADDITIONAL_CONFIG_JSON_FILES ?= 'config.json'
 TFPLAN_JSON:=${INPUT_TFPLAN_JSON}
 DEBUG:=${INPUT_DEBUG}
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
 POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')
+
+# Data Files
+
+DATA := $(shell echo $(INPUT_DATA_FILES) | tr "," "\n"  | tr -d ' ')
+CONFIG := $(shell echo $(INPUT_ADDITIONAL_CONFIG_JSON_FILES) | tr "," "\n" | tr -d ' ')
+DATA_FILES := $(shell echo "$(DATA) $(CONFIG)")
 
 # OPA Command 
 ifeq ($(DEBUG), true)
@@ -25,6 +32,9 @@ opa:
 	echo "Policy Types Configured => $(POLICY_TYPES)"; \
 	echo "OPA Debug Mode Enabled => $(DEBUG)" ; \
 	echo "OPA Command => $(OPA_COMMAND)" ; \
+	echo "Addional Data Files => $(DATA)"; \
+	echo "Addional Configuration JSON Files => $(CONFIG)"; \
+	echo "Addional Overall Files => $(DATA_FILES)"; \
 	for TYPE in $(POLICY_TYPES); do \
 		for FILE in $(DATA_FILES); do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
