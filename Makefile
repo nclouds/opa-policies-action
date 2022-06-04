@@ -71,7 +71,7 @@ opa:
 
 comment:
 	if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then \
-		PR_COMMENTS=$$(cat REPORT.md); \
+		PR_COMMENTS=$$(cat REPORT.md | tr -s '\n' ' '); \
 		echo "Commenting on the Pull Request"; \
 		PR_NUMBER=$$(echo ${GITHUB_REF} | awk -F "/" '{print $$(NF-1)}') ; \
 		echo "Pull Request Number is => $$PR_NUMBER" ; \
