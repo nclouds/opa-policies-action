@@ -24,7 +24,7 @@ cp /Makefile Makefile
 
 # Copy Configuration Files
 if [ -z "$INPUT_ADDITIONAL_CONFIG_JSON_FILES" ]; then
-    cp /config.json config.json
+    cp /config.json $INPUT_POLICIES_DIR/config.json
 fi
 
 # List final files
