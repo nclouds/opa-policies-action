@@ -6,12 +6,6 @@ CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 POLICY_DIR:="$(CURRENT_DIR)/policies"
 POLICY_TYPES:=$$(find $(POLICY_DIR) -mindepth 1 -maxdepth 1 -type d -not -path '*/.*' | awk -F "/" '{print $$NF}')
 
-# Generate Data Config
-DATA:=$(echo $(INPUT_DATA_FILES) | tr "," "\n")
-CONFIG:=$(echo $(INPUT_ADDITIONAL_CONFIG_JSON_FILES) | tr "," "\n")
-
-DATA_FILES:=$("${DATA[@]}" "${CONFIG[@]}")
-
 # OPA Command 
 ifeq ($(DEBUG), true)
 export OPA_COMMAND := /usr/local/bin/opa test -v
@@ -32,6 +26,12 @@ opa:
 	echo "Policy Types Configured => $(POLICY_TYPES)"; \
 	echo "OPA Debug Mode Enabled => $(DEBUG)" ; \
 	echo "OPA Command => $(OPA_COMMAND)" ; \
+	DATA=$$(echo $(INPUT_DATA_FILES) | tr "," "\n"); \
+	CONFIG=$$(echo $(INPUT_ADDITIONAL_CONFIG_JSON_FILES) | tr "," "\n"); \
+	DATA_FILES="$$(echo $${DATA[@]}) $$(echo $${CONFIG[@]})" ; \
+	echo "Addional Data Files => $$DATA"; \
+	echo "Addional Configuration Json Files => $$CONFIG"; \
+	echo "Addional Files Total=> $$DATA_FILES"; \
 	for TYPE in $(POLICY_TYPES); do \
 		for FILE in $(DATA_FILES); do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
