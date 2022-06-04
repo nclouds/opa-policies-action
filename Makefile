@@ -33,7 +33,7 @@ opa:
 	echo "Addional Configuration Json Files => $$CONFIG"; \
 	echo "Addional Files Total=> $$DATA_FILES"; \
 	for TYPE in $(POLICY_TYPES); do \
-		for FILE in $(DATA_FILES); do \
+		for FILE in $$DATA_FILES; do \
 			cp $(POLICY_DIR)/$$FILE $(POLICY_DIR)/$$TYPE; \
 			cp $(TFPLAN_JSON) $(POLICY_DIR)/$$TYPE; \
 		done; \
