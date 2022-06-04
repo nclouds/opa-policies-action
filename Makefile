@@ -1,5 +1,5 @@
-INPUT_DATA_FILES ?= 'utils.rego, test.json'
-INPUT_ADDITIONAL_CONFIG_JSON_FILES ?= 'config.json,   config2.json'
+INPUT_DATA_FILES ?= 'utils.rego'
+INPUT_ADDITIONAL_CONFIG_JSON_FILES ?= 'config.json'
 TFPLAN_JSON:=${INPUT_TFPLAN_JSON}
 DEBUG:=${INPUT_DEBUG}
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
