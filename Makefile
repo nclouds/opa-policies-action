@@ -71,5 +71,5 @@ opa:
 
 comment:
 	if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then \
-		node /notifyPR.js
+		node /notifyPR.js; \
 	fi
