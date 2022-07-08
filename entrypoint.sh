@@ -1,8 +1,5 @@
 #!/bin/sh
 
-set -e
-set -o pipefail
-
 # Print the Input Variables
 __inputs="
     Policies Directory: $INPUT_POLICIES_DIR
@@ -31,10 +28,24 @@ fi
 ls -ltr
 
 # Run OPA Policies
-make opa 
+make opa
 
-# Update PR
-make comment
+if [ "$?" -eq "0" ]
+then
+  echo "OPA Tests SUCCESS!!, commenting on Pull Request"
+  OPA_OUTPUT=0
+  make comment
+else
+  echo "OPA Tests FAILED!!, commenting on Pull Request"
+  OPA_OUTPUT=1
+  make comment
+fi
 
 # Generate the Output
-echo "::set-output name=result::$?"
+echo "::set-output name=result::$OPA_OUTPUT"
+
+# Fail the action of OPA is not success
+if [ "$OPA_OUTPUT" -ne "0" ]
+then 
+    exit 1
+fi
